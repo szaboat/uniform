@@ -1,7 +1,7 @@
 /*
 
 Uniform Theme: Uniform Default
-Version: 1.6
+Version: 1.7
 By: Josh Pyles
 License: MIT License
 ---
@@ -13,8 +13,7 @@ http://pixelmatrixdesign.com/uniform/themer.html
 
 */
 
-/* Global Declaration */
-
+/* GLOBALS */
 div.selector, 
 div.selector span, 
 div.checker span,
@@ -40,6 +39,22 @@ div.button span {
 .button *{
   margin: 0;
   padding: 0;
+}
+
+.selector, 
+.checker, 
+.button, 
+.radio, 
+.uploader {
+  display: -moz-inline-box;
+  display: inline-block;
+  vertical-align: middle;
+  zoom: 1;
+  *display: inline;
+}
+
+.selector select:focus, .radio input:focus, .checker input:focus, .uploader input:focus {
+  outline: 0;
 }
 
 /* INPUT & TEXTAREA */
@@ -79,7 +94,6 @@ textarea.uniform:focus {
 /* SPRITES */
 
 /* Select */
-
 div.selector {
   background-position: -483px -130px;
   line-height: 26px;
@@ -93,7 +107,6 @@ div.selector span {
 }
 
 div.selector select {
-  /* change these to adjust positioning of select element */
   top: 0px;
   left: 0px;
 }
@@ -139,7 +152,6 @@ div.selector.disabled span {
 }
 
 /* Checkbox */
-
 div.checker {
   width: 19px;
   height: 19px;
@@ -207,7 +219,6 @@ div.checker.disabled.active span.checked {
 }
 
 /* Radio */
-
 div.radio {
   width: 18px;
   height: 18px;
@@ -274,7 +285,6 @@ div.radio.disabled.active span.checked {
 }
 
 /* Uploader */
-
 div.uploader {
   background-position: 0px -297px;
   height: 28px;
@@ -288,7 +298,6 @@ div.uploader span.action {
 
 div.uploader span.filename {
   height: 24px;
-  /* change this line to adjust positioning of filename area */
   margin: 2px 0px 2px 2px;
   line-height: 24px;
 }
@@ -373,9 +382,10 @@ div.button:disabled span {
 /* PRESENTATION */
 
 /* Button */
-
 div.button {
   height: 30px;
+  cursor: pointer;
+  position: relative;
 }
 
 div.button span {
@@ -389,30 +399,47 @@ div.button span {
   text-transform: uppercase;
   padding-left: 2px;
   padding-right: 15px;
+  display: -moz-inline-box;
+  display: inline-block;
+  line-height: 1;
+  text-align: center;
+}
+
+div.button a,
+div.button button,
+div.button input {
+  position: absolute;
 }
 
 /* Select */
 div.selector {
   width: 190px;
   font-size: 12px;
+  position: relative;
+  padding-left: 10px;
+  overflow: hidden;
 }
 
 div.selector select {
-  min-width: 190px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 12px;
   border: solid 1px #fff;
+  position: absolute;
+  opacity: 0;
+  filter: alpha(opacity:0);
+  height: 25px;
+  border: none;
+  background: none;
 }
 
 div.selector span {
   padding: 0px 25px 0px 2px;
-  cursor: pointer;
-}
-
-div.selector span {
   color: #666;
-  width: 158px;
   text-shadow: 0 1px 0 #fff;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 div.selector.disabled span {
@@ -422,118 +449,6 @@ div.selector.disabled span {
 /* Checker */
 div.checker {
   margin-right: 5px;
-}
-
-/* Radio */
-div.radio {
-  margin-right: 3px;
-}
-
-/* Uploader */
-div.uploader {
-  width: 190px;
-  cursor: pointer;
-}
-
-div.uploader span.action {
-  width: 85px;
-  text-align: center;
-  text-shadow: #fff 0px 1px 0px;
-  background-color: #fff;
-  font-size: 11px;
-  font-weight: bold;
-}
-
-div.uploader span.filename {
-  color: #777;
-  width: 82px;
-  border-right: solid 1px #bbb;
-  font-size: 11px;
-}
-
-div.uploader input {
-  width: 190px;
-}
-
-div.uploader.disabled span.action {
-  color: #aaa;
-}
-
-div.uploader.disabled span.filename {
-  border-color: #ddd;
-  color: #aaa;
-}
-/*
-
-CORE FUNCTIONALITY 
-
-Not advised to edit stuff below this line
------------------------------------------------------
-*/
-
-.selector, 
-.checker, 
-.button, 
-.radio, 
-.uploader {
-  display: -moz-inline-box;
-  display: inline-block;
-  vertical-align: middle;
-  zoom: 1;
-  *display: inline;
-}
-
-.selector select:focus, .radio input:focus, .checker input:focus, .uploader input:focus {
-  outline: 0;
-}
-
-/* Button */
-
-div.button a,
-div.button button,
-div.button input {
-  position: absolute;
-}
-
-div.button {
-  cursor: pointer;
-  position: relative;
-}
-
-div.button span {
-  display: -moz-inline-box;
-  display: inline-block;
-  line-height: 1;
-  text-align: center;
-}
-
-/* Select */
-
-div.selector {
-  position: relative;
-  padding-left: 10px;
-  overflow: hidden;
-}
-
-div.selector span {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-div.selector select {
-  position: absolute;
-  opacity: 0;
-  filter: alpha(opacity:0);
-  height: 25px;
-  border: none;
-  background: none;
-}
-
-/* Checker */
-
-div.checker {
   position: relative;
 }
 
@@ -551,8 +466,8 @@ div.checker input {
 }
 
 /* Radio */
-
 div.radio {
+  margin-right: 3px;
   position: relative;
 }
 
@@ -571,14 +486,21 @@ div.radio input {
 }
 
 /* Uploader */
-
 div.uploader {
+  width: 190px;
+  cursor: pointer;
   position: relative;
   overflow: hidden;
   cursor: default;
 }
 
 div.uploader span.action {
+  width: 85px;
+  text-align: center;
+  text-shadow: #fff 0px 1px 0px;
+  background-color: #fff;
+  font-size: 11px;
+  font-weight: bold;
   float: left;
   display: inline;
   padding: 2px 0px;
@@ -587,6 +509,10 @@ div.uploader span.action {
 }
 
 div.uploader span.filename {
+  color: #777;
+  width: 82px;
+  border-right: solid 1px #bbb;
+  font-size: 11px;
   padding: 0px 10px;
   float: left;
   display: block;
@@ -597,6 +523,7 @@ div.uploader span.filename {
 }
 
 div.uploader input {
+  width: 190px;
   opacity: 0;
   filter: alpha(opacity:0);
   position: absolute;
@@ -607,4 +534,13 @@ div.uploader input {
   height: 25px;
   border: none;
   cursor: default;
+}
+
+div.uploader.disabled span.action {
+  color: #aaa;
+}
+
+div.uploader.disabled span.filename {
+  border-color: #ddd;
+  color: #aaa;
 }
