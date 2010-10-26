@@ -1,6 +1,6 @@
 module("Input Tests", {
   setup: function(){
-    S.open('input.html')
+    S.open('input.html');
   }
 });
 

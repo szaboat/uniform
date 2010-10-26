@@ -1,6 +1,6 @@
 module("Textarea Tests", {
   setup: function(){
-    S.open('textarea.html')
+    S.open('textarea.html');
   }
 });
 
