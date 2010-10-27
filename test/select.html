@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../jquery.ui.widget.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../jquery.uniform.widget.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="../css/uniform.default.css" type="text/css" media="screen">
+  </head>
+  <body>
+    <select id="regular">
+      <option>Through Google</option>
+      <option>Through Twitter</option>
+      <option>Other&hellip;</option>
+      <option>&lt;Hi&gt;</option>
+    </select>
+    <select id="multiple" multiple>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+    </select>
+    <script type="text/javascript">
+      $("select").uniform();
+    </script>
+  </body>
+</html>
