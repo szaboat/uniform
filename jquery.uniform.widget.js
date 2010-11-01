@@ -29,18 +29,58 @@ Enjoy!
  *
  * http://docs.jquery.com/UI/Widget
  */
-(function(b,j){if(b.cleanData){var k=b.cleanData;b.cleanData=function(a){for(var c=0,d;(d=a[c])!=null;c++)b(d).triggerHandler("remove");k(a)}}else{var l=b.fn.remove;b.fn.remove=function(a,c){return this.each(function(){if(!c)if(!a||b.filter(a,[this]).length)b("*",this).add([this]).each(function(){b(this).triggerHandler("remove")});return l.call(b(this),a,c)})}}b.widget=function(a,c,d){var e=a.split(".")[0],f;a=a.split(".")[1];f=e+"-"+a;if(!d){d=c;c=b.Widget}b.expr[":"][f]=function(h){return!!b.data(h,
-a)};b[e]=b[e]||{};b[e][a]=function(h,g){arguments.length&&this._createWidget(h,g)};c=new c;c.options=b.extend(true,{},c.options);b[e][a].prototype=b.extend(true,c,{namespace:e,widgetName:a,widgetEventPrefix:b[e][a].prototype.widgetEventPrefix||a,widgetBaseClass:f},d);b.widget.bridge(a,b[e][a])};b.widget.bridge=function(a,c){b.fn[a]=function(d){var e=typeof d==="string",f=Array.prototype.slice.call(arguments,1),h=this;d=!e&&f.length?b.extend.apply(null,[true,d].concat(f)):d;if(e&&d.substring(0,1)===
-"_")return h;e?this.each(function(){var g=b.data(this,a);if(!g)throw"cannot call methods on "+a+" prior to initialization; attempted to call method '"+d+"'";if(!b.isFunction(g[d]))throw"no such method '"+d+"' for "+a+" widget instance";var i=g[d].apply(g,f);if(i!==g&&i!==j){h=i;return false}}):this.each(function(){var g=b.data(this,a);g?g.option(d||{})._init():b.data(this,a,new c(d,this))});return h}};b.Widget=function(a,c){arguments.length&&this._createWidget(a,c)};b.Widget.prototype={widgetName:"widget",
-widgetEventPrefix:"",options:{disabled:false},_createWidget:function(a,c){b.data(c,this.widgetName,this);this.element=b(c);this.options=b.extend(true,{},this.options,b.metadata&&b.metadata.get(c)[this.widgetName],a);var d=this;this.element.bind("remove."+this.widgetName,function(){d.destroy()});this._create();this._init()},_create:function(){},_init:function(){},destroy:function(){this.element.unbind("."+this.widgetName).removeData(this.widgetName);this.widget().unbind("."+this.widgetName).removeAttr("aria-disabled").removeClass(this.widgetBaseClass+
-"-disabled ui-state-disabled")},widget:function(){return this.element},option:function(a,c){var d=a,e=this;if(arguments.length===0)return b.extend({},e.options);if(typeof a==="string"){if(c===j)return this.options[a];d={};d[a]=c}b.each(d,function(f,h){e._setOption(f,h)});return e},_setOption:function(a,c){this.options[a]=c;if(a==="disabled")this.widget()[c?"addClass":"removeClass"](this.widgetBaseClass+"-disabled ui-state-disabled").attr("aria-disabled",c);return this},enable:function(){return this._setOption("disabled",
-false)},disable:function(){return this._setOption("disabled",true)},_trigger:function(a,c,d){var e=this.options[a];c=b.Event(c);c.type=(a===this.widgetEventPrefix?a:this.widgetEventPrefix+a).toLowerCase();d=d||{};if(c.originalEvent){a=b.event.props.length;for(var f;a;){f=b.event.props[--a];c[f]=c.originalEvent[f]}}this.element.trigger(c,d);return!(b.isFunction(e)&&e.call(this.element[0],c,d)===false||c.isDefaultPrevented())}}})(jQuery);
-;
+if(!$.hasOwnProperty("Widget")){
+  (function(b,j){if(b.cleanData){var k=b.cleanData;b.cleanData=function(a){for(var c=0,d;(d=a[c])!=null;c++)b(d).triggerHandler("remove");k(a)}}else{var l=b.fn.remove;b.fn.remove=function(a,c){return this.each(function(){if(!c)if(!a||b.filter(a,[this]).length)b("*",this).add([this]).each(function(){b(this).triggerHandler("remove")});return l.call(b(this),a,c)})}}b.widget=function(a,c,d){var e=a.split(".")[0],f;a=a.split(".")[1];f=e+"-"+a;if(!d){d=c;c=b.Widget}b.expr[":"][f]=function(h){return!!b.data(h,
+  a)};b[e]=b[e]||{};b[e][a]=function(h,g){arguments.length&&this._createWidget(h,g)};c=new c;c.options=b.extend(true,{},c.options);b[e][a].prototype=b.extend(true,c,{namespace:e,widgetName:a,widgetEventPrefix:b[e][a].prototype.widgetEventPrefix||a,widgetBaseClass:f},d);b.widget.bridge(a,b[e][a])};b.widget.bridge=function(a,c){b.fn[a]=function(d){var e=typeof d==="string",f=Array.prototype.slice.call(arguments,1),h=this;d=!e&&f.length?b.extend.apply(null,[true,d].concat(f)):d;if(e&&d.substring(0,1)===
+  "_")return h;e?this.each(function(){var g=b.data(this,a);if(!g)throw"cannot call methods on "+a+" prior to initialization; attempted to call method '"+d+"'";if(!b.isFunction(g[d]))throw"no such method '"+d+"' for "+a+" widget instance";var i=g[d].apply(g,f);if(i!==g&&i!==j){h=i;return false}}):this.each(function(){var g=b.data(this,a);g?g.option(d||{})._init():b.data(this,a,new c(d,this))});return h}};b.Widget=function(a,c){arguments.length&&this._createWidget(a,c)};b.Widget.prototype={widgetName:"widget",
+  widgetEventPrefix:"",options:{disabled:false},_createWidget:function(a,c){b.data(c,this.widgetName,this);this.element=b(c);this.options=b.extend(true,{},this.options,b.metadata&&b.metadata.get(c)[this.widgetName],a);var d=this;this.element.bind("remove."+this.widgetName,function(){d.destroy()});this._create();this._init()},_create:function(){},_init:function(){},destroy:function(){this.element.unbind("."+this.widgetName).removeData(this.widgetName);this.widget().unbind("."+this.widgetName).removeAttr("aria-disabled").removeClass(this.widgetBaseClass+
+  "-disabled ui-state-disabled")},widget:function(){return this.element},option:function(a,c){var d=a,e=this;if(arguments.length===0)return b.extend({},e.options);if(typeof a==="string"){if(c===j)return this.options[a];d={};d[a]=c}b.each(d,function(f,h){e._setOption(f,h)});return e},_setOption:function(a,c){this.options[a]=c;if(a==="disabled")this.widget()[c?"addClass":"removeClass"](this.widgetBaseClass+"-disabled ui-state-disabled").attr("aria-disabled",c);return this},enable:function(){return this._setOption("disabled",
+  false)},disable:function(){return this._setOption("disabled",true)},_trigger:function(a,c,d){var e=this.options[a];c=b.Event(c);c.type=(a===this.widgetEventPrefix?a:this.widgetEventPrefix+a).toLowerCase();d=d||{};if(c.originalEvent){a=b.event.props.length;for(var f;a;){f=b.event.props[--a];c[f]=c.originalEvent[f]}}this.element.trigger(c,d);return!(b.isFunction(e)&&e.call(this.element[0],c,d)===false||c.isDefaultPrevented())}}})(jQuery);
+  ;
+}
 
 /* UNIFORM BE HERE */
 
 (function($, undefined){
   $.support.selectOpacity = (!$.browser.msie || $.browser.version > 6);
+  
+  //Public helper methods
+  $.uniform = function(){
+    var self = this,
+        uniform = {},
+        instances = [];
+    
+    uniform.update = function(){
+      $.each(instances, function(){
+        this.update();
+      });
+    };
+    
+    uniform.push = function(obj){
+      instances.push(obj);
+    };
+    
+    uniform.clear = function(){
+      instances = [];
+    };
+    
+    uniform.remove = function(obj){
+      $.each(instances, function(i){
+        if(this === obj){
+          instances.splice(i, 1);
+        }
+      });
+    };
+    
+    uniform.restore = function(){
+      $.each(instances, function(){
+        this.destroy();
+      });
+      uniform.clear();
+    };
+    
+    return uniform;
+  }();
   
   // Proxy function
   $.fn.uniform = function() {
@@ -51,14 +91,7 @@ false)},disable:function(){return this._setOption("disabled",true)},_trigger:fun
           tagName = el.tagName,
           result  = false;
       
-      if (
-           (tagName === "SELECT") &&
-           ($el.attr("multiple") !== true) &&
-           (
-             $el.attr("size") === undefined || 
-             ($el.attr("size") <= 1)
-           )
-         ) {
+      if ((tagName === "SELECT") && ($el.attr("multiple") !== true) && ($el.attr("size") === undefined || ($el.attr("size") <= 1))) {
         result = "uniformSelect";
       } else if (tagName === "INPUT") {
         var type = el.type;
@@ -106,7 +139,6 @@ false)},disable:function(){return this._setOption("disabled",true)},_trigger:fun
       hoverClass:      'hover',
       useID:            true,
       idPrefix:         'uniform',
-      resetSelector:    false,
       autoHide:         true,
       autoWidth:        true
     },
@@ -118,24 +150,20 @@ false)},disable:function(){return this._setOption("disabled",true)},_trigger:fun
     },
     
     _disableTextSelection: function(el){
-      function f() {
+      var f = function() {
        return false;
       };
       $(el).each(function() {
        this.onselectstart = this.ondragstart = f; // Webkit & IE
-       $(this)
-        .mousedown(f) // Webkit & Opera
+       $(this).mousedown(f) // Webkit & Opera
         .css({ MozUserSelect: 'none' }); // Firefox
       });
     },
     
     destroy: function(){
       this.element.unbind(".uniform").css("opacity", "1");
+      $.uniform.remove(this);
       $.Widget.prototype.destroy.call(this);
-    },
-    
-    refresh: function(elem){
-      //halp!
     },
     
     _setOption: function(key, value){
@@ -152,6 +180,7 @@ false)},disable:function(){return this._setOption("disabled",true)},_trigger:fun
       this.divTag  = this.element.closest("div");
       this.element.css("opacity", 0);
       this._setID(this.element);
+      $.uniform.push(this);
       this.update();
     },
     
@@ -198,6 +227,7 @@ false)},disable:function(){return this._setOption("disabled",true)},_trigger:fun
       this.divTag  = this.element.closest("div");
       this.element.css("opacity", 0);
       this._setID(this.element);
+      $.uniform.push(this);
       this.update();
     },
     
@@ -291,15 +321,15 @@ false)},disable:function(){return this._setOption("disabled",true)},_trigger:fun
     
     update: function(){
       wrappedBase.prototype.update.call(this);
-      var self = this;
-      var width = this.element.width();
+      var self = this,
+          width = this.element.width(),
+          selected = this.element.find(":selected:first");
+      
+      this.divTag.addClass(this.options.selectClass);
+          
       if(this.options.autoWidth === true) {
         this.divTag.css("width", width + 20);
       }
-      
-      this.divTag.addClass(this.options.selectClass);
-      
-      var selected = this.element.find(":selected:first");
       
       if(selected.length === 0) {
         selected = this.element.find("option:first");
@@ -330,8 +360,8 @@ false)},disable:function(){return this._setOption("disabled",true)},_trigger:fun
   
   $.widget("uniform.uniformCheckbox", radioCheckBase, {
     update: function(){
-      radioCheckBase.prototype.update.call(this);
       var self = this;
+      radioCheckBase.prototype.update.call(this); //Call update from radioCheckBase
       
       this.divTag.addClass(this.options.checkboxClass);
       
@@ -349,9 +379,11 @@ false)},disable:function(){return this._setOption("disabled",true)},_trigger:fun
   
   $.widget("uniform.uniformRadio", radioCheckBase, {
     update: function(){
-      $("."+this.options.checkedClass).removeClass(this.options.checkedClass);
-      radioCheckBase.prototype.update.call(this);
       var self = this;
+      
+      $("."+this.options.checkedClass).removeClass(this.options.checkedClass); //remove the checked class from anything that's checked
+      
+      radioCheckBase.prototype.update.call(this); //Call update from radioCheckBase
       
       this.divTag.addClass(this.options.radioClass);
       
@@ -360,8 +392,8 @@ false)},disable:function(){return this._setOption("disabled",true)},_trigger:fun
           if(!self.element.attr("checked")){
             self.spanTag.removeClass(self.options.checkedClass);
           }else{
-            var classes = self.options.radioClass.split(" ")[0];
-            var a = $("span").has("input[name="+self.element.attr("name")+"]").removeClass(self.options.checkedClass);
+            var classes = self.options.radioClass.split(" ")[0]; //find only the first class in case multiple were given
+            $("input[name="+self.element.attr("name")+"]").closest("span").removeClass(self.options.checkedClass);
             self.spanTag.addClass(self.options.checkedClass);
           }
         }
@@ -371,34 +403,33 @@ false)},disable:function(){return this._setOption("disabled",true)},_trigger:fun
   
   $.widget("uniform.uniformFile", uniformBase, {
     _init: function(){
-      var btnTag = $('<span>'+this.options.fileBtnText+'</span>'), filenameTag = $('<span>'+this.options.fileDefaultText+'</span>');
-      this.element.wrap("<div>").after(btnTag).after(filenameTag);
-      this.divTag = this.element.closest("div");
+      var btnTag = $('<span>'+this.options.fileBtnText+'</span>'), 
+          filenameTag = $('<span>'+this.options.fileDefaultText+'</span>');
+      
+      this.element.wrap("<div>").after(btnTag).after(filenameTag); //wrap it!
+      
+      this.divTag = this.element.closest("div"); //redefine vars
       this.filenameTag = this.element.next();
       this.btnTag = this.filenameTag.next();
-      if(!this.element.css("display") === "none" && this.options.autoHide) this.divTag.hide();
-      this.element.css("opacity", 0);
+      
+      if(!this.element.css("display") === "none" && this.options.autoHide){
+        this.divTag.hide();
+      }
+      
+      this.element.css("opacity", 0); //set opacity to 0, .hide() would make it's events in-accessible
       this._disableTextSelection(this.filenameTag);
       this._disableTextSelection(this.btnTag);
       this._setID(this.element);
+      $.uniform.push(this);
       this.update();
     },
     
     update: function(){
       var self = this;
-      this.element.unbind(".uniform");
-      this.divTag.removeClass().addClass(this.options.fileClass);
-      this.filenameTag.removeClass().addClass(this.options.filenameClass);
-      this.btnTag.removeClass().addClass(this.options.fileBtnClass);
-      
-      if(!this.element.attr("size")){
-        var divWidth = this.divTag.width();
-        this.element.attr("size", this.divWidth/10);
-      }
       
       var setFilename = function(){
         var filename = self.element.val();
-        if (filename === ''){
+        if (!filename){
           filename = self.options.fileDefaultText;
         }else{
           filename = filename.split(/[\/\\]+/);
@@ -406,12 +437,23 @@ false)},disable:function(){return this._setOption("disabled",true)},_trigger:fun
         }
         self.filenameTag.text(filename);
       };
+      
+      this.element.unbind(".uniform"); //remove previously bound events
+      //reset all classes
+      this.divTag.removeClass().addClass(this.options.fileClass); 
+      this.filenameTag.removeClass().addClass(this.options.filenameClass);
+      this.btnTag.removeClass().addClass(this.options.fileBtnClass);
+      
+      if(!this.element.attr("size")){
+        var divWidth = this.divTag.width();
+        this.element.attr("size", this.divWidth/10);
+      }
 
       setFilename();
 
       // IE7 doesn't fire onChange until blur or second fire.
       if ($.browser.msie){
-        // IE considers browser chrome blocking I/O, so it suspends timemouts until after the file has been selectethis.
+        // IE considers browser chrome blocking I/O, so it suspends timemouts until after the file has been selected
         this.element.bind('click.uniform.ie7', function() {
           setTimeout(setFilename, 0);
         });
