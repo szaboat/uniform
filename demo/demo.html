@@ -6,6 +6,12 @@
     <script type="text/javascript" charset="utf-8">
       $(function(){
         $("input, textarea, select, button").uniform();
+        $("input, button, select").mousedown(function(){
+          //console.log("Mouse Down!");
+        })
+        .mouseup(function(){
+          //console.log("Mouse Up!");
+        });
       });
     </script>
     <link rel="stylesheet" href="../css/uniform.default.css" type="text/css" media="screen">
@@ -48,6 +54,7 @@
         <li>
           <label>I found your site:</label>
           <select>
+            <option>Lorem ipsum dolor sit amet</option>
             <option>Through Google</option>
             <option>Through Twitter</option>
             <option>Other&hellip;</option>

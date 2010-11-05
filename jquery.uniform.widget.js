@@ -39,7 +39,7 @@ if(!$.hasOwnProperty("Widget")){
   ;
 }
 
-/* UNIFORM BE HERE */
+//UNIFORM BE HERE
 
 (function($, undefined){
   $.support.selectOpacity = (!$.browser.msie || $.browser.version > 6);
@@ -120,6 +120,9 @@ if(!$.hasOwnProperty("Widget")){
     });
   };
   
+  // uniformBase
+  // =====================================
+  // base class for all uniform subclasses
   var uniformBase = function() {};
   uniformBase.prototype = $.extend(true, new $.Widget(), {
     options: {
@@ -171,7 +174,11 @@ if(!$.hasOwnProperty("Widget")){
       this.update();
     }
   });
-  
+
+  // wrappedBase
+  // ============================================
+  // class including the basic code for standard 
+  // wrapped uniform elements
   var wrappedBase = function() {};
   wrappedBase.prototype = $.extend(true, new uniformBase(), {
     _init: function(){     
@@ -188,6 +195,7 @@ if(!$.hasOwnProperty("Widget")){
       var self = this;    
       this.divTag.removeClass();
       this.element.unbind(".uniform");
+      this.divTag.unbind(".uniform");
       
       if(this.element.is(":disabled")) {
         this.divTag.addClass(this.options.disabledClass);
@@ -219,6 +227,10 @@ if(!$.hasOwnProperty("Widget")){
     }
   });
   
+  // radioCheckBase
+  // ============================================
+  // class including the basic code for checkboxes
+  // and radio inputs
   var radioCheckBase = function() {};
   radioCheckBase.prototype = $.extend(true, new wrappedBase(), {
     _init: function(){
@@ -235,9 +247,9 @@ if(!$.hasOwnProperty("Widget")){
       wrappedBase.prototype.update.call(this);
       var self = this;
       this.spanTag.removeClass();
-      //reset default checked class
-      if(this.element.attr("checked")) {
-        this.spanTag.addClass(this.options.checkedClass);
+      
+      if(this.element[0].checked) {
+        this.spanTag.addClass(this.options.checkedClass); //reset default checked class
       }
       
       this.element.bind("check", function(){
@@ -257,18 +269,27 @@ if(!$.hasOwnProperty("Widget")){
     }
   });
   
+  // uniformTextarea
+  // ============================================
+  // class for textareas. inherits from uniformBase
   $.widget("uniform.uniformTextarea", uniformBase, {
     _init: function(){
       this.element.addClass("uniform");
     }
   });
   
+  // uniformInput
+  // ===========================================
+  // class for text inputs, inherits from uniformBase
   $.widget("uniform.uniformInput", uniformBase, {
     _init: function(){
       this.element.addClass(this.element.attr("type"));
     }
   });
   
+  // uniformButton
+  // ============================================
+  // class for buttons. inherits from wrappedBase
   $.widget("uniform.uniformButton", wrappedBase, {
     _init: function(){
       wrappedBase.prototype._init.call(this);
@@ -278,7 +299,9 @@ if(!$.hasOwnProperty("Widget")){
     update: function(){
       wrappedBase.prototype.update.call(this);
       var btnText = "", 
-          tagName = this.element.tagName;
+          tagName = this.element[0].tagName,
+          type = this.element[0].type,
+          self = this;
     
       this.divTag.addClass(this.options.buttonClass);
     
@@ -288,7 +311,7 @@ if(!$.hasOwnProperty("Widget")){
         btnText = this.element.attr("value");
       }
       
-      btnText = (btnText === "") ? (this.element[0].type === "reset") ? "Reset" : "Submit" : btnText;
+      btnText = (btnText === "") ? (type === "reset") ? "Reset" : "Submit" : btnText;
       this.spanTag.html(btnText);
     
       this.divTag.bind({
@@ -302,8 +325,26 @@ if(!$.hasOwnProperty("Widget")){
               self.element[0].click();
             }
           }
+        },
+        "mousedown.uniform": function(e){
+          if($(e.target).is("div") || $(e.target).is("span")){
+            self.element.mousedown(); //pass along mouse down
+          }
+        },
+        "mouseup.uniform": function(e){
+          if($(e.target).is("div") || $(e.target).is("span")){
+            self.element.mouseup(); //pass along mouse up
+          }
         }
       });
+      
+      if(tagName == "INPUT" && type == "reset"){
+        this.element.bind({
+          "click.uniform touchend.uniform": function(){
+            setTimeout($.uniform.update, 10); //refresh Uniform if i'm a refresh button and i'm clicked
+          }
+        });
+      }
     },
     
     destroy: function(){
@@ -313,6 +354,9 @@ if(!$.hasOwnProperty("Widget")){
     }
   });
   
+  // uniformSelect
+  // ============================================
+  // class for select elements. inherits from wrappedBase
   $.widget("uniform.uniformSelect", wrappedBase, {
     _init: function(){
       wrappedBase.prototype._init.call(this);
@@ -358,6 +402,10 @@ if(!$.hasOwnProperty("Widget")){
     }
   });
   
+  // uniformCheckbox
+  // ============================================
+  // class for checkbox elements. inherits from
+  // radioCheckBase, which inherits from wrappedBase
   $.widget("uniform.uniformCheckbox", radioCheckBase, {
     update: function(){
       var self = this;
@@ -377,11 +425,15 @@ if(!$.hasOwnProperty("Widget")){
     }
   });
   
+  // uniformRadio
+  // ============================================
+  // class for radio elements. inherits from
+  // radioCheckBase, which inherits from wrappedBase
   $.widget("uniform.uniformRadio", radioCheckBase, {
     update: function(){
       var self = this;
       
-      $("."+this.options.checkedClass).removeClass(this.options.checkedClass); //remove the checked class from anything that's checked
+      //$("."+this.options.checkedClass).removeClass(this.options.checkedClass); //remove the checked class from anything that's checked
       
       radioCheckBase.prototype.update.call(this); //Call update from radioCheckBase
       
@@ -401,6 +453,10 @@ if(!$.hasOwnProperty("Widget")){
     }
   });
   
+  // uniformFile
+  // ============================================
+  // class for file picker elements. inherits from 
+  // uniformBase because it has custom wrapping code
   $.widget("uniform.uniformFile", uniformBase, {
     _init: function(){
       var btnTag = $('<span>'+this.options.fileBtnText+'</span>'), 
