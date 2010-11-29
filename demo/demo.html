@@ -2,7 +2,7 @@
 <html>
   <head>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../jquery.uniform.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../jquery.uniform.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
       $(function(){
         $("input, textarea, select, button").uniform();
@@ -65,12 +65,25 @@
           <label><input type="radio" name="radio" /> Saying hi</label>
           <label><input type="radio" name="radio" /> Sending feedback</label>
         </li>
+        <li id="hidden" style="display: none;">
+          <label>Hidden select!</label>
+          <select>
+            <option>Lorem ipsum dolor sit amet consequeter</option>
+            <option>Through Google</option>
+            <option>Through Twitter</option>
+            <option>Other&hellip;</option>
+            <option>&lt;Hi&gt;</option>
+          </select>
+        </li>
         <li>
           <label><input type="checkbox" /> Please contact me back</label>
         </li>
         <li>
           <label>Upload a file:</label>
           <input type="file" />
+        </li>
+        <li>
+          <input type="search" placeholder="Search&hellip;" />
         </li>
         <li>
           <input type="submit" />

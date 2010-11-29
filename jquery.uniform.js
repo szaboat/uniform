@@ -98,6 +98,8 @@ if(!$.hasOwnProperty("Widget")){
           result = "uniformInput";
         }else if(type === "submit" || type === "reset" || type === "button") {
           result = "uniformButton";
+        }else if(type === "search"){
+          result = "uniformSearch";
         }else{
           result = "uniform" + type.charAt(0).toUpperCase() + type.slice(1);
         }
@@ -133,6 +135,7 @@ if(!$.hasOwnProperty("Widget")){
       fileBtnClass:    'action',
       fileDefaultText: 'No file selected',
       fileBtnText:     'Choose File',
+      searchClass:     'searcher', 
       checkedClass:    'checked',
       focusClass:      'focus',
       disabledClass:   'disabled',
@@ -371,6 +374,12 @@ if(!$.hasOwnProperty("Widget")){
       this.divTag.addClass(this.options.selectClass);
           
       if(this.options.autoWidth === true) {
+        if(width === 0){
+          //ruh roh! select might be hidden.
+          var s = this.element.clone().show().css("opacity", "0"); //clone element
+          width = s.appendTo('body').width(); //append to DOM real quick and grab width
+          s.remove(); //remove element
+        }
         this.divTag.css("width", width + 20);
       }
       
@@ -389,7 +398,7 @@ if(!$.hasOwnProperty("Widget")){
           self.divTag.removeClass(self.options.activeClass);
         },
         "keyup.uniform": function(){
-          self.spanTag.text(self.element.find(":selected").html());
+          self.spanTag.html(self.element.find(":selected").html());
         }
       });
     },
@@ -522,6 +531,80 @@ if(!$.hasOwnProperty("Widget")){
     destroy: function(){
       this.element.siblings("span").remove();
       this.element.unwrap();
+      uniformBase.prototype.destroy.call(this);
+    }
+  });
+  
+  // uniformSearch
+  // =================================
+  // Class for search inputs. Inherits from uniformBase
+  // since it needs to be wrapped differently
+  $.widget("uniform.uniformSearch", uniformBase, {
+    _init: function(){
+      var divTag = $("<div/>"),
+          spanTag = $("<span/>"),
+          btn = $("<a href='#'>X</a>");
+      
+      this.element.wrap(divTag).wrap(spanTag).after(btn);
+      
+      this.divTag = this.element.closest("div"); //redefine vars
+      this.spanTag = this.element.closest("span");
+      this.btn = this.element.siblings("a");
+      
+      this._setID(this.element);
+      $.uniform.push(this);
+      this.update();
+    },
+    
+    _clearQuery: function(){
+      this.element.val("");
+      this.btn.hide();
+    },
+    
+    update: function(){
+      var self = this;
+      
+      this.element.unbind(".uniform");
+      this.divTag.unbind(".uniform");
+      this.btn.unbind(".uniform");
+      
+      this.divTag.removeClass().addClass(this.options.searchClass);
+      this.btn.hide();
+      
+      this.element.bind({
+        "focus.uniform": function(){
+          self.divTag.addClass(self.options.focusClass);
+        },
+        "blur.uniform": function(){
+          self.divTag.removeClass(self.options.focusClass);
+        },
+        "keyup.uniform": function(){
+          if (self.element.val() !== "") {
+            self.btn.show();
+          } else {
+            self.btn.hide();
+          }
+        }
+      });
+      
+      this.divTag.bind("click.uniform", function(){
+        self.element.focus();
+      });
+      
+      this.btn.bind("click.uniform", function(){
+        self._clearQuery();
+        return false;
+      });
+      
+      if(this.element.attr("disabled")) {
+        this.divTag.addClass(this.options.disabledClass);
+      }
+      
+    },
+    
+    destroy: function(){
+      this.element.siblings("a").remove();
+      this.element.unwrap().unwrap();
       uniformBase.prototype.destroy.call(this);
     }
   });
