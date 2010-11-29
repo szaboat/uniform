@@ -254,12 +254,12 @@ if(!$.hasOwnProperty("Widget")){
         this.spanTag.addClass(this.options.checkedClass); //reset default checked class
       }
       
-      this.element.bind("check", function(){
+      this.element.bind("check.uniform", function(){
         self.element[0].checked = true;
         self.update();
       });
       
-      this.element.bind("uncheck", function(){
+      this.element.bind("uncheck.uniform", function(){
         self.element[0].checked = false;
         self.update();
       });
