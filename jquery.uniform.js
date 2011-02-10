@@ -183,13 +183,16 @@ if(!$.hasOwnProperty("Widget")){
   // wrapped uniform elements
   var wrappedBase = function() {};
   wrappedBase.prototype = $.extend(true, new uniformBase(), {
-    _init: function(){     
-      this.element.wrap("<div/>").before("<span/>");
-      this.spanTag = this.element.prev("span");
-      this.divTag  = this.element.closest("div");
-      this.element.css("opacity", 0);
-      this._setID(this.element);
-      $.uniform.push(this);
+    _init: function(){
+      if(this.wrapped !== true){
+        this.element.wrap("<div/>").before("<span/>");
+        this.spanTag = this.element.prev("span");
+        this.divTag  = this.element.closest("div");
+        this.element.css("opacity", 0);
+        this._setID(this.element);
+        this.wrapped = true;
+        $.uniform.push(this);
+      }
       this.update();
     },
     
@@ -208,7 +211,7 @@ if(!$.hasOwnProperty("Widget")){
           self.divTag.addClass(self.options.hoverClass);
         },
         "mouseleave.uniform": function(){
-          self.divTag.removeClass(self.options.hoverClass).removeClass(this.options.activeClass);
+          self.divTag.removeClass(self.options.hoverClass).removeClass(self.options.activeClass);
         },
         "mousedown.uniform touchbegin.uniform": function(){
           self.divTag.addClass(self.options.activeClass);
@@ -236,12 +239,15 @@ if(!$.hasOwnProperty("Widget")){
   var radioCheckBase = function() {};
   radioCheckBase.prototype = $.extend(true, new wrappedBase(), {
     _init: function(){
-      this.element.wrap("<div/>").wrap("<span/>");
-      this.spanTag = this.element.closest("span");
-      this.divTag  = this.element.closest("div");
-      this.element.css("opacity", 0);
-      this._setID(this.element);
-      $.uniform.push(this);
+      if(this.wrapped !== true){
+        this.element.wrap("<div/>").wrap("<span/>");
+        this.spanTag = this.element.closest("span");
+        this.divTag  = this.element.closest("div");
+        this.element.css("opacity", 0);
+        this._setID(this.element);
+        this.wrapped = true;
+        $.uniform.push(this);
+      }
       this.update();
     },
     
@@ -465,24 +471,27 @@ if(!$.hasOwnProperty("Widget")){
   // uniformBase because it has custom wrapping code
   $.widget("uniform.uniformFile", uniformBase, {
     _init: function(){
-      var btnTag = $('<span>'+this.options.fileBtnText+'</span>'), 
-          filenameTag = $('<span>'+this.options.fileDefaultText+'</span>');
-      
-      this.element.wrap("<div>").after(btnTag).after(filenameTag); //wrap it!
-      
-      this.divTag = this.element.closest("div"); //redefine vars
-      this.filenameTag = this.element.next();
-      this.btnTag = this.filenameTag.next();
-      
-      if(!this.element.css("display") === "none" && this.options.autoHide){
-        this.divTag.hide();
+      if(this.wrapped !== true){
+        var btnTag = $('<span>'+this.options.fileBtnText+'</span>'), 
+            filenameTag = $('<span>'+this.options.fileDefaultText+'</span>');
+
+        this.element.wrap("<div>").after(btnTag).after(filenameTag); //wrap it!
+
+        this.divTag = this.element.closest("div"); //redefine vars
+        this.filenameTag = this.element.next();
+        this.btnTag = this.filenameTag.next();
+
+        if(!this.element.css("display") === "none" && this.options.autoHide){
+          this.divTag.hide();
+        }
+
+        this.element.css("opacity", 0); //set opacity to 0, .hide() would make it's events in-accessible
+        this._disableTextSelection(this.filenameTag);
+        this._disableTextSelection(this.btnTag);
+        this._setID(this.element);
+        this.wrapped = true;
+        $.uniform.push(this);
       }
-      
-      this.element.css("opacity", 0); //set opacity to 0, .hide() would make it's events in-accessible
-      this._disableTextSelection(this.filenameTag);
-      this._disableTextSelection(this.btnTag);
-      this._setID(this.element);
-      $.uniform.push(this);
       this.update();
     },
     
@@ -512,6 +521,30 @@ if(!$.hasOwnProperty("Widget")){
       }
 
       setFilename();
+      
+      this.divTag.bind({
+        "mouseenter.uniform": function(){
+          self.divTag.addClass(self.options.hoverClass);
+        },
+        "mouseleave.uniform": function(){
+          self.divTag.removeClass(self.options.hoverClass).removeClass(self.options.activeClass);
+        },
+        "mousedown.uniform touchbegin.uniform": function(){
+          self.divTag.addClass(self.options.activeClass);
+        },
+        "mouseup.uniform touchend.uniform": function(){
+          self.divTag.removeClass(self.options.activeClass);
+        }
+      });
+      
+      this.element.bind({
+        "focus.uniform": function(){
+          self.divTag.addClass(self.options.focusClass);
+        },
+        "blur.uniform": function(){
+          self.divTag.removeClass(self.options.focusClass);
+        }
+      });
 
       // IE7 doesn't fire onChange until blur or second fire.
       if ($.browser.msie){
@@ -541,18 +574,20 @@ if(!$.hasOwnProperty("Widget")){
   // since it needs to be wrapped differently
   $.widget("uniform.uniformSearch", uniformBase, {
     _init: function(){
-      var divTag = $("<div/>"),
-          spanTag = $("<span/>"),
-          btn = $("<a href='#'>X</a>");
-      
-      this.element.wrap(divTag).wrap(spanTag).after(btn);
-      
-      this.divTag = this.element.closest("div"); //redefine vars
-      this.spanTag = this.element.closest("span");
-      this.btn = this.element.siblings("a");
-      
-      this._setID(this.element);
-      $.uniform.push(this);
+      if(this.wrapped !== true){
+        var divTag = $("<div/>"),
+            spanTag = $("<span/>"),
+            btn = $("<a href='#'>X</a>");
+
+        this.element.wrap(divTag).wrap(spanTag).after(btn);
+
+        this.divTag = this.element.closest("div"); //redefine vars
+        this.spanTag = this.element.closest("span");
+        this.btn = this.element.siblings("a");
+        this.wrapped = true;
+        this._setID(this.element);
+        $.uniform.push(this);
+      }
       this.update();
     },
     
