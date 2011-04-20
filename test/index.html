@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Jasmine Test Runner</title>
+  <link rel="stylesheet" type="text/css" href="https://github.com/pivotal/jasmine/raw/master/lib/jasmine.css">
+
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="https://github.com/pivotal/jasmine/raw/master/lib/jasmine.js"></script>
+	<script type="text/javascript" src="https://github.com/pivotal/jasmine/raw/master/lib/jasmine-html.js"></script>
+	<script type="text/javascript" src="https://github.com/velesin/jasmine-jquery/raw/master/lib/jasmine-jquery.js"></script>
+
+	<script type="text/javascript" src="../jquery.uniform.js"></script>
+	<script type="text/javascript" src="./jquery.uniform.spec.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/uniform.default.css">
+
+	<script type="text/javascript">
+	jQuery(function(){
+	  jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+	  jasmine.getEnv().execute();
+
+	  $('#__jasmine_TrivialReporter_showPassed__').attr('checked', true);
+	  $('.jasmine_reporter').addClass('show-passed');
+	});
+	</script>
+</head>
+<body>
+
+</body>
+</html>
